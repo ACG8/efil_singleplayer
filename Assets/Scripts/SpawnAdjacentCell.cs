@@ -14,8 +14,7 @@ public class SpawnAdjacentCell : MonoBehaviour {
 
 	}
 
-	public GameObject CreateNewCell () {
-		Vector2 localOffset = new Vector2 (0f, 1f);
+	public GameObject CreateNewCell (Vector2 localOffset) {
 		Vector2 worldOffset = transform.rotation * localOffset;
 		Vector2 worldPosition = new Vector2 (transform.position.x, transform.position.y) + worldOffset;
 		GameObject newcell = Instantiate (cell, worldPosition, transform.rotation) as GameObject;

@@ -25,9 +25,15 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (Input.GetMouseButtonUp (0) ) {
 			if (selectedCell != null) {
-				SpawnAdjacentCell spawnscript = selectedCell.GetComponent<SpawnAdjacentCell> ();
-				if (spawnscript != null) {
-					spawnscript.CreateNewCell ();
+				Vector2 mousePos = new Vector2 (Camera.main.ScreenToWorldPoint (Input.mousePosition).x, Camera.main.ScreenToWorldPoint (Input.mousePosition).y);
+				Vector2 displacement = mousePos - (Vector2) selectedCell.transform.position;
+				if (displacement.magnitude > 0.5) {
+					Vector2 unitVector = displacement / displacement.magnitude;
+					Vector2 gridVector = new Vector2 (Mathf.Round (unitVector.x), Mathf.Round (unitVector.y));
+					SpawnAdjacentCell spawnscript = selectedCell.GetComponent<SpawnAdjacentCell> ();
+					if (spawnscript != null) {
+						spawnscript.CreateNewCell (gridVector);
+					}
 				}
 			}
 			selectedCell = null;
