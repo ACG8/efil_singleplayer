@@ -20,9 +20,9 @@ public class SpawnAdjacentCell : MonoBehaviour {
 		Vector2 worldPosition = new Vector2 (transform.position.x, transform.position.y) + worldOffset;
 		GameObject newcell = Instantiate (cell, worldPosition, transform.rotation) as GameObject;
 
-		if (newcell != null)
+		if (newcell != null) {
 			newcell.GetComponent<CellNeighborManager> ().LinkJointsToNeighbors ();
-
+		}
 		return newcell;
 	}
 }

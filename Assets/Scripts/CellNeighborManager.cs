@@ -4,26 +4,19 @@ using System.Collections.Generic;
 
 public class CellNeighborManager : MonoBehaviour {
 
-	public GameObject up_joint;
-	public GameObject dn_joint;
-	public GameObject lt_joint;
-	public GameObject rt_joint;
-
 	// Use this for initialization
 	void Start () {
-		//up_joint = transform.FindChild ("upJoint").gameObject;
-		//dn_joint = transform.FindChild ("dnJoint").gameObject;
-		//lt_joint = transform.FindChild ("ltJoint").gameObject;
-		//rt_joint = transform.FindChild ("rtJoint").gameObject;
+		// Initialize joints. In order, [up, lt, dn, rt]
+		for (int i=0; i<4; i++)
+			transform.gameObject.AddComponent<FixedJoint2D> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 
-	void LinkJointToNeighbor ( GameObject side, GameObject neighbor ) {
-		FixedJoint2D joint = side.AddComponent<FixedJoint2D> ();
+	void LinkJointToNeighbor ( FixedJoint2D joint, GameObject neighbor ) {
+		Debug.Log("From " + joint.transform.gameObject + " to " + neighbor);
 		joint.connectedBody = neighbor.GetComponent<Rigidbody2D> ();
 	}
 
@@ -46,13 +39,14 @@ public class CellNeighborManager : MonoBehaviour {
 		Vector2 dn_pos = new Vector2 (0f, -1f);
 
 		if (GetNeighborAtPosition (rt_pos) != null)
-			LinkJointToNeighbor (rt_joint, (GameObject) GetNeighborAtPosition (rt_pos));
+			LinkJointToNeighbor (transform.GetComponents<FixedJoint2D> ()[3], GetNeighborAtPosition (rt_pos));
 		if (GetNeighborAtPosition (lt_pos) != null)
-			LinkJointToNeighbor (lt_joint, (GameObject) GetNeighborAtPosition (lt_pos));
+			LinkJointToNeighbor (transform.GetComponents<FixedJoint2D> ()[1], GetNeighborAtPosition (lt_pos));
 		if (GetNeighborAtPosition (up_pos) != null)
-			LinkJointToNeighbor (up_joint, (GameObject) GetNeighborAtPosition (up_pos));
-		if (GetNeighborAtPosition (dn_pos) != null)
-			LinkJointToNeighbor (dn_joint, (GameObject) GetNeighborAtPosition (dn_pos));
+			LinkJointToNeighbor (transform.GetComponents<FixedJoint2D> ()[0], GetNeighborAtPosition (up_pos));
+		if (GetNeighborAtPosition (dn_pos) != null) {
+			LinkJointToNeighbor (transform.GetComponents<FixedJoint2D> ()[2], GetNeighborAtPosition (dn_pos));
+		}
 	}
 
 

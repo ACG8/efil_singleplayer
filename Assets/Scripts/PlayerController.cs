@@ -38,11 +38,8 @@ public class PlayerController : MonoBehaviour {
 		Vector2 rayPos = new Vector2 (Camera.main.ScreenToWorldPoint (Input.mousePosition).x, Camera.main.ScreenToWorldPoint (Input.mousePosition).y);
 		RaycastHit2D hit = Physics2D.Raycast (rayPos, Vector2.zero, 0f);
 
-		if (hit) {
-			//figure out which part of the cell was hit
-
+		if (hit)
 			return hit.collider.transform.gameObject;
-		}
 		else
 			return null;
 	}
