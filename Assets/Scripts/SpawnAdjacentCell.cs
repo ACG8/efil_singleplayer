@@ -14,17 +14,14 @@ public class SpawnAdjacentCell : MonoBehaviour {
 
 	}
 
-	public GameObject CreateNewCell ( GameObject creator ) {
-		Vector2 localOffset = new Vector2 (0.5f, 0f);
-		Vector2 worldOffset = creator.transform.rotation * localOffset;
-		Vector2 worldPosition = new Vector2 (creator.transform.position.x, creator.transform.position.y) + worldOffset;
-		GameObject newcell = Instantiate (cell, worldPosition, creator.transform.rotation) as GameObject;
-		//now connect with joints
-		FixedJoint2D creatorjoint = transform.parent.gameObject.AddComponent<FixedJoint2D> ();
-		creatorjoint.connectedBody = newcell.GetComponent<Rigidbody2D> ();
+	public GameObject CreateNewCell () {
+		Vector2 localOffset = new Vector2 (0f, 1f);
+		Vector2 worldOffset = transform.rotation * localOffset;
+		Vector2 worldPosition = new Vector2 (transform.position.x, transform.position.y) + worldOffset;
+		GameObject newcell = Instantiate (cell, worldPosition, transform.rotation) as GameObject;
 
-		FixedJoint2D newcelljoint = newcell.transform.FindChild("dnJoint").gameObject.AddComponent<FixedJoint2D> ();
-		newcelljoint.connectedBody = creator.GetComponent<Rigidbody2D> ();
+		if (newcell != null)
+			newcell.GetComponent<CellNeighborManager> ().LinkJointsToNeighbors ();
 
 		return newcell;
 	}

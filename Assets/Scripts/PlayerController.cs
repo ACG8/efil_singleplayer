@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 	public GameObject cell;
+
+	private GameObject selectedCell;
 	// Use this for initialization
 	void Start () {
 	
@@ -10,26 +12,25 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown (0)) {
+		if (Input.GetMouseButtonDown (1)) {
 			GameObject target = ClickSelect ();
 			//take behavior based on scripts
 			if (target != null) {
 				target.GetComponent<MoveForward> ().Toggle_Active ();
 			}
 		}
-		if (Input.GetMouseButtonDown (1)) {
+		if (Input.GetMouseButtonDown (0)) {
 			GameObject target = ClickSelect ();
-			//take behavior based on scripts
-			if (target != null) {
-				Debug.Log ("hit");
-				Debug.Log (target);
-				// for nubs
-				SpawnAdjacentCell spawnscript = target.GetComponent<SpawnAdjacentCell>();
+			selectedCell = target;
+		}
+		if (Input.GetMouseButtonUp (0) ) {
+			if (selectedCell != null) {
+				SpawnAdjacentCell spawnscript = selectedCell.GetComponent<SpawnAdjacentCell> ();
 				if (spawnscript != null) {
-					Debug.Log ("spawn");
-					spawnscript.CreateNewCell (target);
+					spawnscript.CreateNewCell ();
 				}
 			}
+			selectedCell = null;
 		}
 	}
 
