@@ -6,18 +6,16 @@ public class CellNeighborManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		// Initialize joints. In order, [up, lt, dn, rt]
-		for (int i=0; i<4; i++)
-			transform.gameObject.AddComponent<FixedJoint2D> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	}
 
-	void LinkJointToNeighbor ( FixedJoint2D joint, GameObject neighbor ) {
-		Debug.Log("From " + joint.transform.gameObject + " to " + neighbor);
+	public void LinkJointToNeighbor ( GameObject neighbor ) {
+		FixedJoint2D joint = transform.gameObject.AddComponent<FixedJoint2D> ();
 		joint.connectedBody = neighbor.GetComponent<Rigidbody2D> ();
+		Debug.Log("From " + joint.transform.gameObject + " to " + neighbor);
 	}
 
 	GameObject GetNeighborAtPosition(Vector2 pos) {
@@ -39,13 +37,13 @@ public class CellNeighborManager : MonoBehaviour {
 		Vector2 dn_pos = new Vector2 (0f, -1f);
 
 		if (GetNeighborAtPosition (rt_pos) != null)
-			LinkJointToNeighbor (transform.GetComponents<FixedJoint2D> ()[3], GetNeighborAtPosition (rt_pos));
+			LinkJointToNeighbor ( GetNeighborAtPosition (rt_pos) );
 		if (GetNeighborAtPosition (lt_pos) != null)
-			LinkJointToNeighbor (transform.GetComponents<FixedJoint2D> ()[1], GetNeighborAtPosition (lt_pos));
+			LinkJointToNeighbor ( GetNeighborAtPosition (lt_pos) );
 		if (GetNeighborAtPosition (up_pos) != null)
-			LinkJointToNeighbor (transform.GetComponents<FixedJoint2D> ()[0], GetNeighborAtPosition (up_pos));
+			LinkJointToNeighbor ( GetNeighborAtPosition (up_pos) );
 		if (GetNeighborAtPosition (dn_pos) != null) {
-			LinkJointToNeighbor (transform.GetComponents<FixedJoint2D> ()[2], GetNeighborAtPosition (dn_pos));
+			LinkJointToNeighbor ( GetNeighborAtPosition (dn_pos) );
 		}
 	}
 

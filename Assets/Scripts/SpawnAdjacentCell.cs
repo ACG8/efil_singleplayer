@@ -22,6 +22,7 @@ public class SpawnAdjacentCell : MonoBehaviour {
 
 		if (newcell != null) {
 			newcell.GetComponent<CellNeighborManager> ().LinkJointsToNeighbors ();
+			transform.GetComponent<CellNeighborManager> ().LinkJointToNeighbor (newcell);
 		}
 		return newcell;
 	}
