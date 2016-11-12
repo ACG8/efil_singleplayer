@@ -17,7 +17,8 @@ public class SpawnAdjacentCell : MonoBehaviour {
 	public GameObject CreateNewCell (Vector2 localOffset) {
 		Vector2 worldOffset = transform.rotation * localOffset;
 		Vector2 worldPosition = new Vector2 (transform.position.x, transform.position.y) + worldOffset;
-		GameObject newcell = Instantiate (cell, worldPosition, transform.rotation) as GameObject;
+		Quaternion newfacing = Quaternion.LookRotation (Vector3.forward, (Vector3) worldOffset);
+		GameObject newcell = Instantiate (cell, worldPosition, newfacing) as GameObject;
 
 		if (newcell != null) {
 			newcell.GetComponent<CellNeighborManager> ().LinkJointsToNeighbors ();
